@@ -20,6 +20,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private Long customerId;
     private Long productId;
     private Long quantity;
     private String orderStatus;
@@ -28,6 +29,7 @@ public class Order {
     @PostPersist
     public void onPostPersist() {
         OrderPlaced orderPlaced = new OrderPlaced(this);
+        orderPlaced.setCustomerId(this.getCustomerId());
         orderPlaced.publishAfterCommit();
     }
 

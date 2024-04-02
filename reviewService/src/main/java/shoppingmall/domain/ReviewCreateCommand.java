@@ -8,4 +8,5 @@ import lombok.Data;
 public class ReviewCreateCommand {
 
     private String reviewContent;
+    private Long customerId;
 }

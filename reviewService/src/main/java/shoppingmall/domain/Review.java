@@ -22,6 +22,8 @@ public class Review {
 
     private Long orderId;
 
+    private Long customerId;
+
     private Long productId;
 
     private String reviewContent;
@@ -43,6 +45,7 @@ public class Review {
         //implement business logic here:
 
         ReviewCreated reviewCreated = new ReviewCreated(this);
+        reviewCreated.setCustomerId(this.customerId);
         reviewCreated.publishAfterCommit();
     }
 

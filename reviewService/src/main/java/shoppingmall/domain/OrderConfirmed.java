@@ -10,7 +10,7 @@ import shoppingmall.infra.AbstractEvent;
 public class OrderConfirmed extends AbstractEvent {
 
     private Long id;
-    private Integer productId;
+    private Long productId;
     private Integer quantity;
     private String orderStatus;
     private String deliveryStatus;

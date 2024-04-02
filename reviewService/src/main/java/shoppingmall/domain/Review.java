@@ -21,7 +21,7 @@ public class Review {
 
     private Long productId;
 
-    private String reivewContent;
+    private String reviewContent;
 
     private Integer score;
 
@@ -47,24 +47,9 @@ public class Review {
 
     //<<< Clean Arch / Port Method
     public static void addReviewList(OrderConfirmed orderConfirmed) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
         Review review = new Review();
         repository().save(review);
-
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(orderConfirmed.get???()).ifPresent(review->{
-            
-            review // do something
-            repository().save(review);
-
-
-         });
-        */
 
     }
     //>>> Clean Arch / Port Method

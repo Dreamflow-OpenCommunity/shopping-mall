@@ -12,9 +12,9 @@ import shoppingmall.infra.AbstractEvent;
 public class ReviewCreated extends AbstractEvent {
 
     private Long id;
-    private Integer orderId;
-    private Integer productId;
-    private String reivewContent;
+    private Long orderId;
+    private Long productId;
+    private String reviewContent;
     private Long score;
 
     public ReviewCreated(Review aggregate) {

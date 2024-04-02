@@ -5,18 +5,25 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import shoppingmall.OrderServiceApplication;
 import shoppingmall.domain.OrderPlaced;
 
 @Entity
 @Table(name = "Order_table")
-@Data
-//<<< DDD / Aggregate Root
+@Getter
+@Setter
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    private Long productId;
+    private Long quantity;
+    private String orderStatus;
+    private String deliveryStatus;
 
     @PostPersist
     public void onPostPersist() {
@@ -34,72 +41,37 @@ public class Order {
         return orderRepository;
     }
 
-    //<<< Clean Arch / Port Method
-    public void orderCancel() {
-        //implement business logic here:
 
+    public void orderCancel() {
+        this.setOrderStatus("주문 취소");
         OrderCanceled orderCanceled = new OrderCanceled(this);
         orderCanceled.publishAfterCommit();
     }
 
-    //>>> Clean Arch / Port Method
-    //<<< Clean Arch / Port Method
-    public void orderConfirm() {
-        //implement business logic here:
 
+    public void orderConfirm() {
+        this.setOrderStatus("주문 확정");
         OrderConfirmed orderConfirmed = new OrderConfirmed(this);
         orderConfirmed.publishAfterCommit();
     }
 
-    //>>> Clean Arch / Port Method
-
-    //<<< Clean Arch / Port Method
     public static void updateDeliveryInfo(DeliveryStarted deliveryStarted) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
-        Order order = new Order();
-        repository().save(order);
-
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(deliveryStarted.get???()).ifPresent(order->{
-            
-            order // do something
+        repository().findById(Long.valueOf(deliveryStarted.getOrderId())).ifPresent(order->{
+            order.setDeliveryStatus("배달 시작");
             repository().save(order);
-
-
          });
-        */
 
     }
 
-    //>>> Clean Arch / Port Method
-    //<<< Clean Arch / Port Method
     public static void updateDeliveryInfo(DeliveryCompleted deliveryCompleted) {
-        //implement business logic here:
 
-        /** Example 1:  new item 
-        Order order = new Order();
-        repository().save(order);
-
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(deliveryCompleted.get???()).ifPresent(order->{
-            
-            order // do something
+        repository().findById(Long.valueOf(deliveryCompleted.getOrderId())).ifPresent(order->{
+            order.setDeliveryStatus("배달 완료");
             repository().save(order);
-
-
-         });
-        */
+        });
 
     }
-    //>>> Clean Arch / Port Method
 
 }
-//>>> DDD / Aggregate Root
+

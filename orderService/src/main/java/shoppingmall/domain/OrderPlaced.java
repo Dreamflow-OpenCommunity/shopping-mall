@@ -12,7 +12,7 @@ import shoppingmall.infra.AbstractEvent;
 public class OrderPlaced extends AbstractEvent {
 
     private Long id;
-    private Integer productId;
+    private Long productId;
     private Integer quantity;
 
     public OrderPlaced(Order aggregate) {

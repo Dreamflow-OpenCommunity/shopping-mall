@@ -5,13 +5,16 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import shoppingmall.ProductServiceApplication;
 import shoppingmall.domain.StockDecreased;
 import shoppingmall.domain.StockIncreased;
 
 @Entity
 @Table(name = "Product_table")
-@Data
+@Getter
+@Setter
 //<<< DDD / Aggregate Root
 public class Product {
 
@@ -27,11 +30,6 @@ public class Product {
 
     @PostPersist
     public void onPostPersist() {
-        StockDecreased stockDecreased = new StockDecreased(this);
-        stockDecreased.publishAfterCommit();
-
-        StockIncreased stockIncreased = new StockIncreased(this);
-        stockIncreased.publishAfterCommit();
     }
 
     public static ProductRepository repository() {
@@ -45,26 +43,17 @@ public class Product {
     public static void orderPlace(OrderPlaced orderPlaced) {
         //implement business logic here:
 
-        /** Example 1:  new item 
-        Product product = new Product();
-        repository().save(product);
 
-        StockDecreased stockDecreased = new StockDecreased(product);
-        stockDecreased.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(orderPlaced.get???()).ifPresent(product->{
+        repository().findById(Long.valueOf(orderPlaced.getProductId())).ifPresent(product->{
             
-            product // do something
+            product.setStock(product.getStock() - orderPlaced.getQuantity());
             repository().save(product);
 
             StockDecreased stockDecreased = new StockDecreased(product);
             stockDecreased.publishAfterCommit();
 
          });
-        */
+
 
     }
 
@@ -73,26 +62,15 @@ public class Product {
     public static void orderCancel(OrderCanceled orderCanceled) {
         //implement business logic here:
 
-        /** Example 1:  new item 
-        Product product = new Product();
-        repository().save(product);
-
-        StockIncreased stockIncreased = new StockIncreased(product);
-        stockIncreased.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
-        
-        repository().findById(orderCanceled.get???()).ifPresent(product->{
+        repository().findById(Long.valueOf(orderCanceled.getProductId())).ifPresent(product->{
             
-            product // do something
+            product.setStock(product.getStock() + orderCanceled.getQuantity());
             repository().save(product);
 
             StockIncreased stockIncreased = new StockIncreased(product);
             stockIncreased.publishAfterCommit();
 
          });
-        */
 
     }
     //>>> Clean Arch / Port Method

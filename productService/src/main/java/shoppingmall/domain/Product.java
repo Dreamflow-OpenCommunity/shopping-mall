@@ -5,13 +5,16 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import shoppingmall.ProductServiceApplication;
 import shoppingmall.domain.StockDecreased;
 import shoppingmall.domain.StockIncreased;
 
 @Entity
 @Table(name = "Product_table")
-@Data
+@Getter
+@Setter
 //<<< DDD / Aggregate Root
 public class Product {
 

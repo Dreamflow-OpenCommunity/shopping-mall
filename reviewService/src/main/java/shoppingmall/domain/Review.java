@@ -5,11 +5,14 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import shoppingmall.ReviewServiceApplication;
 
 @Entity
 @Table(name = "Review_table")
-@Data
+@Setter
+@Getter
 //<<< DDD / Aggregate Root
 public class Review {
 
@@ -47,8 +50,8 @@ public class Review {
 
     //<<< Clean Arch / Port Method
     public static void addReviewList(OrderConfirmed orderConfirmed) {
-
         Review review = new Review();
+        review.setOrderId(orderConfirmed.getId());
         repository().save(review);
 
     }
